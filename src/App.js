@@ -1,10 +1,11 @@
+import {BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes"; 
+
+
 function App(){
   return(
     <div style={{textAlign: 'center',marginTop:'50px'}}>
-      <h1>Welcome Siva</h1>
-        <h2>Development branch working</h2>
-    
-
+ 
     </div>
   )
 }
