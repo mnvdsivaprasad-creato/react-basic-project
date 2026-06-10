@@ -1,8 +1,24 @@
-const Dashboard=()=>{
-    return(
-        <div>
-            <h1>Dashboard</h1>
-        </div>
-    )
-}
+import { useSelector,useDispatch } from "react-redux";
+import { logout } from "../store/authSlice";
+import { useNavigate } from "react-router-dom";
+
+
+const Dashboard = () => {
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Dashboard</h1>
+      <h3>Welcome, {user?.email || "Guest"}</h3>
+      <button onClick={handleLogout}>Logout</button>
+    </div>
+  );
+};
 export default Dashboard;
