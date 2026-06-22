@@ -78,7 +78,7 @@ const Dashboard = () => {
   ).length;
 
   const inProgressTasks = tasks.filter(
-    (task) => task.status.toLowerCase() === "in Progress",
+    (task) => task.status.toLowerCase() === "in progress",
   ).length;
 
   const completedTasks = tasks.filter(
