@@ -71,6 +71,20 @@ const Dashboard = () => {
     navigate("/");
   };
 
+  const totalTasks = tasks.length;
+
+  const pendingTasks = tasks.filter(
+    (task) => task.status.toLowerCase() === "pending",
+  ).length;
+
+  const inProgressTasks = tasks.filter(
+    (task) => task.status.toLowerCase() === "in Progress",
+  ).length;
+
+  const completedTasks = tasks.filter(
+    (task) => task.status.toLowerCase() === "completed",
+  ).length;
+
   if (loading) {
     return <h2>Loading Tasks...</h2>;
   }
@@ -87,9 +101,61 @@ const Dashboard = () => {
         editingTask={editingTask}
       />
       <br></br>
-      {/* <Link to="/">Logout</Link> */}
       <button onClick={handleLogout}>Logout</button>
       <hr />
+
+      <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
+
+        <div
+        style={{
+          border:"1px solid gray",
+          padding:"15px",
+          borderRadius:"8px",
+        }}
+        >
+       <h4>Total</h4>
+       <p>{totalTasks}</p>
+        </div>
+
+        <div
+        style={{
+          border:"1px solid gray",
+          padding:"15px",
+          borderRadius:"8px"
+        }}
+        >
+          <h4>Pending</h4>
+          <p>{pendingTasks}</p>
+
+        </div>
+
+
+        <div
+        style={{
+          border:"1px solid gray",
+          padding:"15px",
+          borderRadius:"8px"
+        }}
+        >
+          <h4>In Progress</h4>
+          <p>{inProgressTasks}</p>
+
+        </div>
+
+
+        <div
+        style={{
+          border:"1px solid gray",
+          padding:"15px",
+          borderRadius:"8px"
+        }}
+        > 
+        <h4>Completed</h4>
+        <p>{completedTasks}</p>
+        
+        </div>
+      </div>
+
       <h3>My Tasks</h3>
       <h4>Current Filter:{filter}</h4>
       <div style={{ marginBottom: "20px" }}>
