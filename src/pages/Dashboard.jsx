@@ -2,21 +2,55 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { addTask, deleteTask, updateTask } from "../store/taskSlice";
+import {
+  createTask,
+  deleteTaskAsync,
+  updateTaskAsync,
+} from "../store/taskSlice";
 import TaskCard from "../components/TaskCard";
 import TaskForm from "../components/TaskForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchTasks } from "../store/taskSlice";
 
 const Dashboard = () => {
   const [editingTask, setEditingTask] = useState(null);
-  const user = useSelector((state) => state.auth.user);
+  const [filter, setFilter] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const tasks = useSelector((state) => state.tasks.tasks);
+  const handleView = (id) => {
+    navigate(`/task/${id}`);
+  };
+
+  const { tasks, loading, error } = useSelector((state) => state.tasks);
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
+  const filteredTasks = tasks
+    .filter((task) => {
+      const matchesFilter =
+        filter === "All" || task.status.toLowerCase() === filter.toLowerCase();
+
+      const matchesSearch =
+        task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.description.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesFilter && matchesSearch;
+    })
+    .sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a.title.localeCompare(b.title);
+      } else {
+        return b.title.localeCompare(a.title);
+      }
+    });
 
   const handleAddTask = (task) => {
-    dispatch(addTask(task));
+    dispatch(createTask(task));
   };
 
   const handleEdit = (task) => {
@@ -24,18 +58,25 @@ const Dashboard = () => {
   };
 
   const handleUpdateTask = (updatedTask) => {
-    dispatch(updateTask(updatedTask));
+    dispatch(updateTaskAsync(updatedTask));
     setEditingTask(null);
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteTask(id));
+    dispatch(deleteTaskAsync(id));
   };
 
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
   };
+
+  if (loading) {
+    return <h2>Loading Tasks...</h2>;
+  }
+  if (error) {
+    return <h2>{error}</h2>;
+  }
 
   return (
     <div style={{ padding: "20px" }}>
@@ -45,25 +86,75 @@ const Dashboard = () => {
         onUpdateTask={handleUpdateTask}
         editingTask={editingTask}
       />
-      {/* <hr />-<h3>Quick Actions</h3>
-      <button>Add New Task</button> */}
       <br></br>
-      <Link to="/">Logout</Link>
+      {/* <Link to="/">Logout</Link> */}
+      <button onClick={handleLogout}>Logout</button>
       <hr />
       <h3>My Tasks</h3>
-      <ul>
-        <li>Kk</li>
-      </ul>
-      {/* <h3>Welcome, {user?.email || "Guest"}</h3>
-      <button onClick={handleLogout}>Logout</button> */}
-      {tasks.map((task) => (
-        <TaskCard
-          key={task.id}
-          task={task}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
+      <h4>Current Filter:{filter}</h4>
+      <div style={{ marginBottom: "20px" }}>
+        <button onClick={() => setFilter("All")}>All</button>
+        <button
+          onClick={() => setFilter("Pending")}
+          style={{ marginLeft: "10px" }}
+        >
+          Pending
+        </button>
+        <button
+          onClick={() => setFilter("In Progress")}
+          style={{ marginLeft: "10px" }}
+        >
+          In Progress
+        </button>
+        <button
+          onClick={() => setFilter("Completed")}
+          style={{ marginLeft: "10px" }}
+        >
+          Completed
+        </button>
+      </div>
+
+      <div style={{ marginBottom: "15px" }}>
+        <input
+          type="text"
+          placeholder="Search tasks...."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            padding: "8px",
+            width: "250px",
+          }}
         />
-      ))}
+      </div>
+
+      <h4>
+        Showing {filteredTasks.length} of {tasks.length}
+      </h4>
+      {filteredTasks.length === 0 ? (
+        <p>No tasks found.</p>
+      ) : (
+        filteredTasks.map((task) => (
+          <TaskCard
+            key={task.id}
+            task={task}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onView={handleView}
+          />
+        ))
+      )}
+
+      <div style={{ marginBottom: "15px" }}>
+        <label>Sort By:</label>
+
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+          <option value="asc">Title (A-Z)</option>
+          <option value="desc">Title (Z-A)</option>
+        </select>
+      </div>
     </div>
   );
 };
