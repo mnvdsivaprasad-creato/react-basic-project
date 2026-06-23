@@ -19,12 +19,19 @@ const Dashboard = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const taskPerPage = 5;
 
   const handleView = (id) => {
     navigate(`/task/${id}`);
   };
 
   const { tasks, loading, error } = useSelector((state) => state.tasks);
+
+  useEffect(() => {
+    setCurrentPage(1);
+
+  },[filter,searchTerm]);
 
   useEffect(() => {
     dispatch(fetchTasks());
@@ -48,6 +55,13 @@ const Dashboard = () => {
         return b.title.localeCompare(a.title);
       }
     });
+
+  const indexOfLastTask = currentPage * taskPerPage;
+  const indexOfFirstTask = indexOfLastTask - taskPerPage;
+
+  const currentTasks = filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
+
+  const totalPages = Math.ceil(filteredTasks.length / taskPerPage);
 
   const handleAddTask = (task) => {
     dispatch(createTask(task));
@@ -105,54 +119,48 @@ const Dashboard = () => {
       <hr />
 
       <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
-
         <div
-        style={{
-          border:"1px solid gray",
-          padding:"15px",
-          borderRadius:"8px",
-        }}
+          style={{
+            border: "1px solid gray",
+            padding: "15px",
+            borderRadius: "8px",
+          }}
         >
-       <h4>Total</h4>
-       <p>{totalTasks}</p>
+          <h4>Total</h4>
+          <p>{totalTasks}</p>
         </div>
 
         <div
-        style={{
-          border:"1px solid gray",
-          padding:"15px",
-          borderRadius:"8px"
-        }}
+          style={{
+            border: "1px solid gray",
+            padding: "15px",
+            borderRadius: "8px",
+          }}
         >
           <h4>Pending</h4>
           <p>{pendingTasks}</p>
-
         </div>
 
-
         <div
-        style={{
-          border:"1px solid gray",
-          padding:"15px",
-          borderRadius:"8px"
-        }}
+          style={{
+            border: "1px solid gray",
+            padding: "15px",
+            borderRadius: "8px",
+          }}
         >
           <h4>In Progress</h4>
           <p>{inProgressTasks}</p>
-
         </div>
 
-
         <div
-        style={{
-          border:"1px solid gray",
-          padding:"15px",
-          borderRadius:"8px"
-        }}
-        > 
-        <h4>Completed</h4>
-        <p>{completedTasks}</p>
-        
+          style={{
+            border: "1px solid gray",
+            padding: "15px",
+            borderRadius: "8px",
+          }}
+        >
+          <h4>Completed</h4>
+          <p>{completedTasks}</p>
         </div>
       </div>
 
@@ -180,7 +188,25 @@ const Dashboard = () => {
         </button>
       </div>
 
-      <div style={{ marginBottom: "15px" }}>
+      <div style={{ marginTop: "20px" }}>
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          previous
+        </button>
+        <span>
+          Page{currentPage}of{totalPages}
+        </span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next
+        </button>
+      </div>
+
+      <div style={{ marginBottom: "15px",marginTop:"13px" }}>
         <input
           type="text"
           placeholder="Search tasks...."
@@ -199,7 +225,7 @@ const Dashboard = () => {
       {filteredTasks.length === 0 ? (
         <p>No tasks found.</p>
       ) : (
-        filteredTasks.map((task) => (
+        currentTasks.map((task) => (
           <TaskCard
             key={task.id}
             task={task}
