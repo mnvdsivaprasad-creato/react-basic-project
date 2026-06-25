@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+
 import { toast } from "react-toastify";
 import {
   createTask,
@@ -110,9 +110,6 @@ const Dashboard = () => {
   if (loading) {
     return <h2>Loading Tasks...</h2>;
   }
-  // if (error) {
-  //   return <h2>{error}</h2>;
-  // }
 
   return (
     <div style={{ padding: "20px" }}>
