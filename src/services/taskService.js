@@ -15,6 +15,8 @@ export const createTaskApi = async (taskData) => {
 };
 
 export const updateTaskApi=async(task)=>{
+  
+  console.log("Sending PUT Request:",task);
     const response=await axiosInstance.put(`/todos/${task.id}`,task);
     return response.data;
 }

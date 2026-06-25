@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const TaskForm = ({ onAddTask, onUpdateTask, editingTask }) => {
+const TaskForm = ({ onAddTask, onUpdateTask, editingTask,loading, }) => {
   const [title, setTitle] = useState(editingTask?.title || "");
   const [description, setDescription] = useState(
     editingTask?.description || "",
@@ -71,7 +71,7 @@ const TaskForm = ({ onAddTask, onUpdateTask, editingTask }) => {
         </select>
       </div>
       <br />
-      <button type="submit">{editingTask ? "update Task" : "Add Task"}</button>
+      <button type="submit" disabled={loading}>{loading?"Processing":editingTask ? "update Task" : "Add Task"}</button>
     </form>
   );
 };

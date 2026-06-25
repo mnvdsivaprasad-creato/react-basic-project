@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   createTask,
   deleteTaskAsync,
@@ -30,8 +31,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-
-  },[filter,searchTerm]);
+  }, [filter, searchTerm]);
 
   useEffect(() => {
     dispatch(fetchTasks());
@@ -63,21 +63,29 @@ const Dashboard = () => {
 
   const totalPages = Math.ceil(filteredTasks.length / taskPerPage);
 
-  const handleAddTask = (task) => {
-    dispatch(createTask(task));
+  const handleAddTask = async (task) => {
+    await dispatch(createTask(task));
+    toast.success("Task Created Succesfully");
   };
 
   const handleEdit = (task) => {
     setEditingTask(task);
   };
 
-  const handleUpdateTask = (updatedTask) => {
-    dispatch(updateTaskAsync(updatedTask));
+  const handleUpdateTask = async (updatedTask) => {
+    console.log("Updated Task:", updatedTask);
+
+    const result = await dispatch(updateTaskAsync(updatedTask));
+    console.log("Result:", result);
     setEditingTask(null);
+    toast.success("Toast Updated Succesfully");
   };
 
-  const handleDelete = (id) => {
-    dispatch(deleteTaskAsync(id));
+  const handleDelete = async (id) => {
+    console.log("Deleting ID:", id);
+    const result = await dispatch(deleteTaskAsync(id));
+    console.log(result);
+    toast.success("Task Deleted Succesfully");
   };
 
   const handleLogout = () => {
@@ -102,17 +110,21 @@ const Dashboard = () => {
   if (loading) {
     return <h2>Loading Tasks...</h2>;
   }
-  if (error) {
-    return <h2>{error}</h2>;
-  }
+  // if (error) {
+  //   return <h2>{error}</h2>;
+  // }
 
   return (
     <div style={{ padding: "20px" }}>
       <h1>Task ManagerDashboard</h1>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
       <TaskForm
         onAddTask={handleAddTask}
         onUpdateTask={handleUpdateTask}
         editingTask={editingTask}
+        loading={loading}
       />
       <br></br>
       <button onClick={handleLogout}>Logout</button>
@@ -206,7 +218,7 @@ const Dashboard = () => {
         </button>
       </div>
 
-      <div style={{ marginBottom: "15px",marginTop:"13px" }}>
+      <div style={{ marginBottom: "15px", marginTop: "13px" }}>
         <input
           type="text"
           placeholder="Search tasks...."
