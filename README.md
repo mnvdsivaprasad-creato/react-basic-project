@@ -151,7 +151,7 @@ http://localhost:3000
 
 ## Update Task
 
-![UpdateTask](./screenshots/update.png)
+![UpdateTask](./screenshots/updateTask.png)
 
 ## Add Task
 
