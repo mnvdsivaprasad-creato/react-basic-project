@@ -12,23 +12,23 @@ A modern Task Manager application built with **React.js**, **Redux Toolkit**, an
 
 ## Features
 
-* User Authentication
-* Protected Routes
-* LocalStorage Persistence
-* Redux Toolkit State Management
-* Redux Async Thunks
-* Axios API Integration
-* Create Task
-* Update Task
-* Delete Task
-* View Task Details
-* Search Tasks
-* Filter Tasks by Status
-* Sort Tasks (A–Z / Z–A)
-* Pagination
-* Dashboard Statistics
-* Toast Notifications
-* Loading and Error Handling
+- User Authentication
+- Protected Routes
+- LocalStorage Persistence
+- Redux Toolkit State Management
+- Redux Async Thunks
+- Axios API Integration
+- Create Task
+- Update Task
+- Delete Task
+- View Task Details
+- Search Tasks
+- Filter Tasks by Status
+- Sort Tasks (A–Z / Z–A)
+- Pagination
+- Dashboard Statistics
+- Toast Notifications
+- Loading and Error Handling
 
 ---
 
@@ -36,19 +36,19 @@ A modern Task Manager application built with **React.js**, **Redux Toolkit**, an
 
 ### Frontend
 
-* React.js
-* Redux Toolkit
-* React Router DOM
-* Axios
-* React Toastify
+- React.js
+- Redux Toolkit
+- React Router DOM
+- Axios
+- React Toastify
 
 ### API
 
-* JSONPlaceholder
+- JSONPlaceholder
 
 ### Deployment
 
-* Vercel
+- Vercel
 
 ---
 
@@ -104,32 +104,62 @@ http://localhost:3000
 
 ## What I Done
 
-* React Component Architecture
-* Redux Toolkit
-* Async Thunks
-* Axios API Integration
-* CRUD Operations
-* Protected Routing
-* LocalStorage Persistence
-* Pagination
-* Searching & Filtering
-* Sorting
-* Error Handling
-* Deployment with Vercel
+- React Component Architecture
+- Redux Toolkit
+- Async Thunks
+- Axios API Integration
+- CRUD Operations
+- Protected Routing
+- LocalStorage Persistence
+- Pagination
+- Searching & Filtering
+- Sorting
+- Error Handling
+- Deployment with Vercel
 
 ---
 
 ## Future Improvements
 
-* Spring Boot Backend
-* MySQL Database
-* JWT Authentication
-* User Registration
-* Role-Based Authorization
-* Responsive UI using Tailwind CSS
-* Redux Persist
+- Spring Boot Backend
+- MySQL Database
+- JWT Authentication
+- User Registration
+- Role-Based Authorization
+- Responsive UI using Tailwind CSS
+- Redux Persist
 
 ---
+
+# Screenshots
+
+## Login Page
+
+![Login Page](./screenshots/login.png)
+
+## Dashboard
+
+![Dashboard](./screenshots/dashboard.png)
+
+## Task Details
+
+![Task Details](./screenshots/task-details.png)
+
+## Pagination
+
+![Pagination](./screenshots/pagination.png)
+
+## Update Task
+
+![UpdateTask](./screenshots/update.png)
+
+## Add Task
+
+![AddTask](./screenshots/addtask.png)
+
+## Search
+
+![Search](./screenshots/search.png)
 
 ## Author
 
