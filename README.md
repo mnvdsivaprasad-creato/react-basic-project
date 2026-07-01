@@ -131,36 +131,6 @@ http://localhost:3000
 
 ---
 
-# Screenshots
-
-## Login Page
-
-![Login Page](./screenshots/login.png)
-
-## Dashboard
-
-![Dashboard](./screenshots/dashboard.png)
-
-## Task Details
-
-![Task Details](./screenshots/task-details.png)
-
-## Pagination
-
-![Pagination](./screenshots/pagination.png)
-
-## Update Task
-
-![UpdateTask](./screenshots/updateTask.png)
-
-## Add Task
-
-![AddTask](./screenshots/addtask.png)
-
-## Search
-
-![Search](./screenshots/search.png)
-
 ## Author
 
 **Sivaprsad Mudde**
